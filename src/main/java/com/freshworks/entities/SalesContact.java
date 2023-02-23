@@ -72,12 +72,12 @@ public class SalesContact
     @OneToMany(mappedBy = "salesContact", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ContactEmail> emails;
 
-//    @OneToOne(mappedBy = "customFields", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-////    @JoinColumns({
-////            @JoinColumn(name = "account_id", referencedColumnName = "account_id", insertable = false, updatable = false),
-////            @JoinColumn(name = "id", referencedColumnName = "contact_id", insertable = false, updatable = false)
-////    })
-//    private ContactCustomField contactCustomField;
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumns({
+            @JoinColumn(name = "account_id", referencedColumnName = "account_id", insertable = false, updatable = false),
+            @JoinColumn(name = "id", referencedColumnName = "contact_id", insertable = false, updatable = false)
+    })
+    private ContactCustomField contactCustomField;
 
     public void addContactEmail(ContactEmail contactEmail) {
         if(contactEmail != null) {
@@ -89,8 +89,8 @@ public class SalesContact
         contactEmail.setSalesContact(this);
     }
 
-//    public void setContactCustomField(ContactCustomField contactCustomField) {
-//        this.contactCustomField = contactCustomField;
+    public void setContactCustomField(ContactCustomField contactCustomField) {
+        this.contactCustomField = contactCustomField;
 ////        this.contactCustomField.setSalesContact(this);
-//    }
+    }
 }
