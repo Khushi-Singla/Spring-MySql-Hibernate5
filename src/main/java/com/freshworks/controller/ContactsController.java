@@ -77,7 +77,7 @@ public class ContactsController {
 //    }
 
     public void deleteSalesContact() {
-        SalesContact salesContact = salesContactRepository.findById(266975L).get();
+        SalesContact salesContact = salesContactRepository.findById(266972L).get();
         salesContactRepository.delete(salesContact);
     }
 }
