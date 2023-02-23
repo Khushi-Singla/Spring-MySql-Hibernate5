@@ -11,8 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -35,7 +37,7 @@ public class ContactsController {
         return salesContactRepository.findByIdAndAccountId(id, 10101010L).get();
     }
 
-    @GetMapping(path="/{id}/update")
+    @PutMapping(path="/{id}/update")
     public @ResponseBody SalesContact updateContact(@PathVariable Long id) {
         //Contact
         //Contact Custom Field
@@ -46,14 +48,14 @@ public class ContactsController {
         ContactEmail contactEmail = ContactEmail.builder().email("1@xyz.com")
             .createdAt(Instant.now()).updatedAt(Instant.now()).build();
 //        ContactEmail saved = contactEmailRepository.save(contactEmail);
-//        contact.addContactEmail(contactEmail);
+        contact.addContactEmail(contactEmail);
         return salesContactRepository.save(contact);
     }
-    @PostMapping(path="/postEntity")
-    public void postEntity() {
-//       insertContactAndEmail();
-        insertContactAndCustomField();
-    }
+//    @PostMapping(path="/postEntity")
+//    public void postEntity() {
+////       insertContactAndEmail();
+//        insertContactAndCustomField();
+//    }
 
     @DeleteMapping(path = "/delete")
     public void deleteEntity() {
@@ -67,12 +69,12 @@ public class ContactsController {
 //        return salesContactRepository.save(salesContact);
 //    }
 
-    public SalesContact insertContactAndCustomField() {
-        ContactCustomField contactCustomField = ContactCustomField.builder().contactFormId(72348734L).build();
-        SalesContact salesContact = SalesContact.builder().accountId(10101010L).build();
-        salesContact.setContactCustomField(contactCustomField);
-        return salesContactRepository.save(salesContact);
-    }
+//    public SalesContact insertContactAndCustomField() {
+//        ContactCustomField contactCustomField = ContactCustomField.builder().contactFormId(72348734L).build();
+//        SalesContact salesContact = SalesContact.builder().accountId(10101010L).build();
+//        salesContact.setContactCustomField(contactCustomField);
+//        return salesContactRepository.save(salesContact);
+//    }
 
     public void deleteSalesContact() {
         SalesContact salesContact = salesContactRepository.findById(266975L).get();
