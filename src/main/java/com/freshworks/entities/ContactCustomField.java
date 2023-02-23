@@ -43,11 +43,11 @@ public class ContactCustomField
     @Column(name = "contact_form_id")
     private Long contactFormId;
 
-    @Column(name = "contact_id")
-    private Long contactId;
-
-    @Column(name = "account_id")
-    private Long accountId;
+//    @Column(name = "contact_id")
+//    private Long contactId;
+//
+//    @Column(name = "account_id")
+//    private Long accountId;
 
     @Column(name = "cf_str01")
     private String cfStr01;
@@ -60,17 +60,17 @@ public class ContactCustomField
     @LastModifiedDate
     private Instant updatedAt;
 
-//    @OneToOne
-//    @JoinColumns({
-//        @JoinColumn(name = "account_id", referencedColumnName = "account_id", insertable = false, updatable = false),
-//        @JoinColumn(name = "contact_id", referencedColumnName = "id", insertable = false, updatable = false)
-//    })
-//    @JsonBackReference
-//    private SalesContact customFields;
+    @OneToOne
+    @JoinColumns({
+        @JoinColumn(name = "account_id", referencedColumnName = "account_id"),
+        @JoinColumn(name = "contact_id", referencedColumnName = "id")
+    })
+    @JsonBackReference
+    private SalesContact customFields;
 
- //   public void setSalesContact(SalesContact salesContact) {
-//        customFields = salesContact;
-//    }
+    public void setSalesContact(SalesContact salesContact) {
+        customFields = salesContact;
+    }
 }
 
 

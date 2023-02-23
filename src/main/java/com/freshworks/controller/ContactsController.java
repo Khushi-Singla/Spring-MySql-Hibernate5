@@ -46,13 +46,13 @@ public class ContactsController {
         ContactEmail contactEmail = ContactEmail.builder().email("1@xyz.com")
             .createdAt(Instant.now()).updatedAt(Instant.now()).build();
 //        ContactEmail saved = contactEmailRepository.save(contactEmail);
-        contact.addContactEmail(contactEmail);
+//        contact.addContactEmail(contactEmail);
         return salesContactRepository.save(contact);
     }
     @PostMapping(path="/postEntity")
     public void postEntity() {
-       insertContactAndEmail();
-//        return insertContactAndCustomField();
+//       insertContactAndEmail();
+        insertContactAndCustomField();
     }
 
     @DeleteMapping(path = "/delete")
@@ -60,19 +60,19 @@ public class ContactsController {
         deleteSalesContact();
     }
 
-    public SalesContact insertContactAndEmail() {
-        ContactEmail contactEmail1 = ContactEmail.builder().email("xpqr@gmail.com").build();
-        SalesContact salesContact = SalesContact.builder().accountId(101010L).build();
-        salesContact.addContactEmail(contactEmail1);
-        return salesContactRepository.save(salesContact);
-    }
-
-//    public SalesContact insertContactAndCustomField() {
-//        ContactCustomField contactCustomField = ContactCustomField.builder().contactFormId(72348734L).build();
-//        SalesContact salesContact = SalesContact.builder().accountId(10101010L).build();
-//        salesContact.setContactCustomField(contactCustomField);
+//    public SalesContact insertContactAndEmail() {
+//        ContactEmail contactEmail1 = ContactEmail.builder().email("xpqr@gmail.com").build();
+//        SalesContact salesContact = SalesContact.builder().accountId(101010L).build();
+//        salesContact.addContactEmail(contactEmail1);
 //        return salesContactRepository.save(salesContact);
 //    }
+
+    public SalesContact insertContactAndCustomField() {
+        ContactCustomField contactCustomField = ContactCustomField.builder().contactFormId(72348734L).build();
+        SalesContact salesContact = SalesContact.builder().accountId(10101010L).build();
+        salesContact.setContactCustomField(contactCustomField);
+        return salesContactRepository.save(salesContact);
+    }
 
     public void deleteSalesContact() {
         SalesContact salesContact = salesContactRepository.findById(266975L).get();

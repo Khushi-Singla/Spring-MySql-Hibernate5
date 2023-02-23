@@ -69,28 +69,28 @@ public class SalesContact
 //    @JsonManagedReference
 //    private List<ContactEmail> emails;
 
-    @OneToMany(mappedBy = "salesContact", cascade = CascadeType.PERSIST, orphanRemoval = true)
-    private List<ContactEmail> emails;
+//    @OneToMany(mappedBy = "salesContact", cascade = CascadeType.PERSIST, orphanRemoval = true)
+//    private List<ContactEmail> emails;
 
-//    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(mappedBy = "customFields", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 //    @JoinColumns({
 //            @JoinColumn(name = "account_id", referencedColumnName = "account_id", insertable = false, updatable = false),
 //            @JoinColumn(name = "id", referencedColumnName = "contact_id", insertable = false, updatable = false)
 //    })
-//    private ContactCustomField contactCustomField;
+    private ContactCustomField contactCustomField;
 
-    public void addContactEmail(ContactEmail contactEmail) {
-        if(contactEmail != null) {
-            if(emails == null) {
-                emails = new ArrayList<>();
-            }
-        }
-        emails.add(contactEmail);
-        contactEmail.setSalesContact(this);
-    }
-
-//    public void setContactCustomField(ContactCustomField contactCustomField) {
-//        this.contactCustomField = contactCustomField;
-//        this.contactCustomField.setSalesContact(this);
+//    public void addContactEmail(ContactEmail contactEmail) {
+//        if(contactEmail != null) {
+//            if(emails == null) {
+//                emails = new ArrayList<>();
+//            }
+//        }
+//        emails.add(contactEmail);
+//        contactEmail.setSalesContact(this);
 //    }
+
+    public void setContactCustomField(ContactCustomField contactCustomField) {
+        this.contactCustomField = contactCustomField;
+        this.contactCustomField.setSalesContact(this);
+    }
 }
