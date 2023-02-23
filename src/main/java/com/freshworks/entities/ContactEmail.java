@@ -1,6 +1,7 @@
 package com.freshworks.entities;
 
 import java.time.Instant;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -11,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
@@ -34,6 +36,9 @@ public class ContactEmail {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+//    @Column(name = "account_id")
+//    private Long accountId;
 
     @Column(name = "created_at")
     @CreatedDate
@@ -61,9 +66,13 @@ public class ContactEmail {
 
     @ManyToOne
     @JoinColumns({
-        @JoinColumn(name = "account_id", referencedColumnName = "account_id", nullable = false),
-        @JoinColumn(name = "contact_id", referencedColumnName = "id", nullable = false)
+        @JoinColumn(name = "account_id", referencedColumnName = "account_id"),
+        @JoinColumn(name = "contact_id", referencedColumnName = "id")
     })
     @JsonBackReference
-    private SalesContact contact;
+    private SalesContact salesContact;
+
+    public void setSalesContact(SalesContact contact) {
+        salesContact = contact;
+    }
 }
