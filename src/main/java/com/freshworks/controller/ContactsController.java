@@ -51,23 +51,23 @@ public class ContactsController {
         contact.addContactEmail(contactEmail);
         return salesContactRepository.save(contact);
     }
-//    @PostMapping(path="/postEntity")
-//    public void postEntity() {
-////       insertContactAndEmail();
+    @PostMapping(path="/postEntity")
+    public void postEntity() {
+       insertContactAndEmail();
 //        insertContactAndCustomField();
-//    }
+    }
 
     @DeleteMapping(path = "/delete")
     public void deleteEntity() {
         deleteSalesContact();
     }
 
-//    public SalesContact insertContactAndEmail() {
-//        ContactEmail contactEmail1 = ContactEmail.builder().email("xpqr@gmail.com").build();
-//        SalesContact salesContact = SalesContact.builder().accountId(101010L).build();
-//        salesContact.addContactEmail(contactEmail1);
-//        return salesContactRepository.save(salesContact);
-//    }
+    public SalesContact insertContactAndEmail() {
+        ContactEmail contactEmail1 = ContactEmail.builder().email("xpqr@gmail.com").build();
+        SalesContact salesContact = SalesContact.builder().accountId(101010L).build();
+        salesContact.addContactEmail(contactEmail1);
+        return salesContactRepository.save(salesContact);
+    }
 
 //    public SalesContact insertContactAndCustomField() {
 //        ContactCustomField contactCustomField = ContactCustomField.builder().contactFormId(72348734L).build();
