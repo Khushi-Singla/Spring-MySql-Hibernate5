@@ -2,9 +2,11 @@ package com.freshworks.entities;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.EntityListeners;
@@ -12,10 +14,14 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -60,7 +66,26 @@ public class SalesContact
     @JsonManagedReference
     private List<ContactTagAssociation> tags;
 
-    @OneToMany(mappedBy = "contact", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "contact", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<ContactEmail> emails;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumns({
+        @JoinColumn(name = "account_id", referencedColumnName = "account_id", insertable = false, updatable = false),
+        @JoinColumn(name = "id", referencedColumnName = "contact_id", insertable = false, updatable = false)
+    })
+    private ContactCustomField contactCustomField;
+
+    public void addEmail(ContactEmail email){
+        if(email!=null){
+            emails = emails==null ? new ArrayList<>() : emails;
+            emails.add(email);
+        }
+    }
+    public void removeEmail(ContactEmail email){
+        if(email!=null){
+            emails.removeIf(e -> e.getEmail().equals(email.getEmail()));
+        }
+    }
 }
