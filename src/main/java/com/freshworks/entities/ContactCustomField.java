@@ -1,5 +1,6 @@
 package com.freshworks.entities;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -60,7 +61,7 @@ public class ContactCustomField
     @LastModifiedDate
     private Instant updatedAt;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumns({
         @JoinColumn(name = "account_id", referencedColumnName = "account_id"),
         @JoinColumn(name = "contact_id", referencedColumnName = "id")

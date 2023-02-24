@@ -64,7 +64,7 @@ public class ContactEmail {
     @Column(name = "label_id")
     private Long labelId;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumns({
         @JoinColumn(name = "account_id", referencedColumnName = "account_id"),
         @JoinColumn(name = "contact_id", referencedColumnName = "id")

@@ -46,7 +46,7 @@ public class ContactsController {
         ContactEmail contactEmail = ContactEmail.builder().email("1@xyz.com")
             .createdAt(Instant.now()).updatedAt(Instant.now()).build();
 //        ContactEmail saved = contactEmailRepository.save(contactEmail);
-//        contact.addContactEmail(contactEmail);
+        contact.addContactEmail(contactEmail);
         return salesContactRepository.save(contact);
     }
     @PostMapping(path="/postEntity")
@@ -60,12 +60,12 @@ public class ContactsController {
         deleteSalesContact();
     }
 
-//    public SalesContact insertContactAndEmail() {
-//        ContactEmail contactEmail1 = ContactEmail.builder().email("xpqr@gmail.com").build();
-//        SalesContact salesContact = SalesContact.builder().accountId(101010L).build();
-//        salesContact.addContactEmail(contactEmail1);
-//        return salesContactRepository.save(salesContact);
-//    }
+    public SalesContact insertContactAndEmail() {
+        ContactEmail contactEmail1 = ContactEmail.builder().email("xpqr@gmail.com").build();
+        SalesContact salesContact = SalesContact.builder().accountId(101010L).build();
+        salesContact.addContactEmail(contactEmail1);
+        return salesContactRepository.save(salesContact);
+    }
 
     public SalesContact insertContactAndCustomField() {
         ContactCustomField contactCustomField = ContactCustomField.builder().contactFormId(72348734L).build();
@@ -75,7 +75,8 @@ public class ContactsController {
     }
 
     public void deleteSalesContact() {
-        SalesContact salesContact = salesContactRepository.findById(266975L).get();
+        SalesContact salesContact = salesContactRepository.findById(267006L).get();
+        System.out.println(salesContact.getId());
         salesContactRepository.delete(salesContact);
     }
 }
