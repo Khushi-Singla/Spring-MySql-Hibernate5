@@ -26,6 +26,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -34,6 +37,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @javax.persistence.Entity
 @EntityListeners(AuditingEntityListener.class)
 @Getter
+@Setter
 @Builder(toBuilder = true)
 @AllArgsConstructor
 @NoArgsConstructor
@@ -70,12 +74,13 @@ public class SalesContact
     @JsonManagedReference
     private List<ContactEmail> emails;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumns({
-        @JoinColumn(name = "account_id", referencedColumnName = "account_id", insertable = false, updatable = false),
-        @JoinColumn(name = "id", referencedColumnName = "contact_id", insertable = false, updatable = false)
-    })
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "contact", fetch = FetchType.LAZY)
+    @JsonManagedReference
     private ContactCustomField contactCustomField;
+
+    public void setContactCustomField(ContactCustomField contactCustomField){
+        this.contactCustomField = contactCustomField;
+    }
 
     public void addEmail(ContactEmail email){
         if(email!=null){

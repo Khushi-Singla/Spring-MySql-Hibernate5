@@ -3,6 +3,7 @@ package com.freshworks.controller;
 import java.time.Instant;
 import java.util.Random;
 
+import com.freshworks.entities.ContactCustomField;
 import com.freshworks.entities.ContactEmail;
 import com.freshworks.entities.SalesContact;
 import com.freshworks.repository.ContactEmailRepository;
@@ -44,6 +45,9 @@ public class ContactsController {
         int i = rand.nextInt();
         SalesContact contact = SalesContact.builder().firstName("First"+i)
             .accountId(1677068770L).build();
+        ContactCustomField customField = ContactCustomField.builder().cfStr01("str"+i).build();
+        customField.setContact(contact);
+        contact.setContactCustomField(customField);
         ContactEmail contactEmail = ContactEmail.builder().email(i+"@xyz.com")
             .createdAt(Instant.now()).updatedAt(Instant.now()).contact(contact).build();
         contact.addEmail(contactEmail);
