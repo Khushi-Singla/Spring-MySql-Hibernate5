@@ -1,7 +1,6 @@
 package com.freshworks.entities;
 
 import java.time.Instant;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -12,7 +11,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
@@ -30,7 +28,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Builder(toBuilder = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class ContactEmail {
+public class ContactEmailEntity{
 
     @Id
     @Column(name = "id")
@@ -67,9 +65,9 @@ public class ContactEmail {
         @JoinColumn(name = "contact_id", referencedColumnName = "id")
     })
     @JsonBackReference
-    private SalesContact salesContact;
+    private SalesContactEntity salesContact;
 
-    public void setSalesContact(SalesContact contact) {
+    public void setSalesContact(SalesContactEntity contact) {
         salesContact = contact;
     }
 }

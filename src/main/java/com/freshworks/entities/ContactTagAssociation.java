@@ -27,7 +27,7 @@ public class ContactTagAssociation extends EntityTagAssociation{
 
     @Builder
     public ContactTagAssociation(Long id, Long tagId, Instant createdAt,
-                                 Instant updatedAt, SalesContact contactTagAssociations) {
+                                 Instant updatedAt, SalesContactEntity contactTagAssociations) {
         super(id, tagId, createdAt, updatedAt);
         this.contactTagAssociations = contactTagAssociations;
     }
@@ -38,5 +38,5 @@ public class ContactTagAssociation extends EntityTagAssociation{
         @JoinColumn(name = "targetable_id", referencedColumnName = "id", insertable = false, updatable = false)
     })
     @JsonBackReference
-    private SalesContact contactTagAssociations;
+    private SalesContactEntity contactTagAssociations;
 }

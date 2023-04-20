@@ -3,7 +3,6 @@ package com.freshworks.entities;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -33,7 +32,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Builder(toBuilder = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class ContactCustomField
+public class ContactCustomFieldEntity
         implements Serializable {
     @Id
     @Column(name = "id")
@@ -60,9 +59,9 @@ public class ContactCustomField
         @JoinColumn(name = "contact_id", referencedColumnName = "id")
     })
     @JsonBackReference
-    private SalesContact customFields;
+    private SalesContactEntity customFields;
 
-    public void setSalesContact(SalesContact salesContact) {
+    public void setSalesContact(SalesContactEntity salesContact) {
         customFields = salesContact;
     }
 }

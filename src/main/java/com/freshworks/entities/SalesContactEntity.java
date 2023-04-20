@@ -9,8 +9,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -37,7 +35,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @AllArgsConstructor
 @NoArgsConstructor
 @DiscriminatorValue("Contact")
-public class SalesContact
+public class SalesContactEntity
         implements Serializable {
     @Column(name = "created_at")
     @CreatedDate
@@ -62,12 +60,12 @@ public class SalesContact
     private String lastName;
 
     @OneToMany(mappedBy = "salesContact", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ContactEmail> emails;
+    private List<ContactEmailEntity> emails;
 
     @OneToOne(mappedBy = "customFields" ,fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private ContactCustomField contactCustomField;
+    private ContactCustomFieldEntity contactCustomField;
 
-    public void addContactEmail(ContactEmail contactEmail) {
+    public void addContactEmail(ContactEmailEntity contactEmail) {
         if(contactEmail != null) {
             if(emails == null) {
                 emails = new ArrayList<>();
@@ -77,7 +75,7 @@ public class SalesContact
         contactEmail.setSalesContact(this);
     }
 
-    public void setContactCustomField(ContactCustomField contactCustomField) {
+    public void setContactCustomField(ContactCustomFieldEntity contactCustomField) {
         this.contactCustomField = contactCustomField;
     }
 }
