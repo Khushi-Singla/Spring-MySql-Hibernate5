@@ -24,6 +24,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -79,6 +80,17 @@ public class SalesContact
 
     public void setContactCustomField(ContactCustomField contactCustomField) {
         this.contactCustomField = contactCustomField;
-////        this.contactCustomField.setSalesContact(this);
+    }
+
+    public void addEmail(ContactEmail email){
+        if(email!=null){
+            emails = emails==null ? new ArrayList<>() : emails;
+            emails.add(email);
+        }
+    }
+    public void removeEmail(ContactEmail email){
+        if(email!=null){
+            emails.removeIf(e -> e.getEmail().equals(email.getEmail()));
+        }
     }
 }
