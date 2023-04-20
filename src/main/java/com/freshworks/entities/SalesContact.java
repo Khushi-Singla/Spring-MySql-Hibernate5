@@ -61,22 +61,10 @@ public class SalesContact
     @Column(name = "last_name")
     private String lastName;
 
-//    @OneToMany(mappedBy = "contactTagAssociations", fetch = FetchType.LAZY)
-//    @JsonManagedReference
-//    private List<ContactTagAssociation> tags;
-    
-//    @OneToMany(mappedBy = "salesContact", cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
-//    @JsonManagedReference
-//    private List<ContactEmail> emails;
-
     @OneToMany(mappedBy = "salesContact", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ContactEmail> emails;
 
     @OneToOne(mappedBy = "customFields" ,fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-//    @JoinColumns({
-//            @JoinColumn(name = "account_id", referencedColumnName = "account_id", insertable = false, updatable = false),
-//            @JoinColumn(name = "id", referencedColumnName = "contact_id", insertable = false, updatable = false)
-//    })
     private ContactCustomField contactCustomField;
 
     public void addContactEmail(ContactEmail contactEmail) {
@@ -91,6 +79,5 @@ public class SalesContact
 
     public void setContactCustomField(ContactCustomField contactCustomField) {
         this.contactCustomField = contactCustomField;
-////        this.contactCustomField.setSalesContact(this);
     }
 }
