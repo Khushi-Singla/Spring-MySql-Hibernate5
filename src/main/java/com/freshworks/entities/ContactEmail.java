@@ -37,9 +37,6 @@ public class ContactEmail {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @Column(name = "account_id")
-//    private Long accountId;
-
     @Column(name = "created_at")
     @CreatedDate
     private Instant createdAt;

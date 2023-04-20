@@ -42,12 +42,6 @@ public class ContactCustomField
 
     @Column(name = "contact_form_id")
     private Long contactFormId;
-//
-//    @Column(name = "contact_id")
-//    private Long contactId;
-//
-//    @Column(name = "account_id")
-//    private Long accountId;
 
     @Column(name = "cf_str01")
     private String cfStr01;
