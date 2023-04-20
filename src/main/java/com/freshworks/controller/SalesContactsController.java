@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping(path="/contacts")
-public class ContactsController {
+public class SalesContactsController{
     @Autowired
     private SalesContactRepository salesContactRepository;
 
