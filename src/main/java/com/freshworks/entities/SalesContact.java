@@ -24,6 +24,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -69,28 +70,27 @@ public class SalesContact
 //    @JsonManagedReference
 //    private List<ContactEmail> emails;
 
-    @OneToMany(mappedBy = "salesContact", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "contact", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<ContactEmail> emails;
 
-    @OneToOne(mappedBy = "customFields" ,fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-//    @JoinColumns({
-//            @JoinColumn(name = "account_id", referencedColumnName = "account_id", insertable = false, updatable = false),
-//            @JoinColumn(name = "id", referencedColumnName = "contact_id", insertable = false, updatable = false)
-//    })
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "contact", fetch = FetchType.LAZY)
+    @JsonManagedReference
     private ContactCustomField contactCustomField;
 
-    public void addContactEmail(ContactEmail contactEmail) {
-        if(contactEmail != null) {
-            if(emails == null) {
-                emails = new ArrayList<>();
-            }
-        }
-        emails.add(contactEmail);
-        contactEmail.setSalesContact(this);
+    public void setContactCustomField(ContactCustomField contactCustomField){
+        this.contactCustomField = contactCustomField;
     }
 
-    public void setContactCustomField(ContactCustomField contactCustomField) {
-        this.contactCustomField = contactCustomField;
-////        this.contactCustomField.setSalesContact(this);
+    public void addEmail(ContactEmail email){
+        if(email!=null){
+            emails = emails==null ? new ArrayList<>() : emails;
+            emails.add(email);
+        }
+    }
+    public void removeEmail(ContactEmail email){
+        if(email!=null){
+            emails.removeIf(e -> e.getEmail().equals(email.getEmail()));
+        }
     }
 }

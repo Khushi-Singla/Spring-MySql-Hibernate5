@@ -1,6 +1,7 @@
 package com.freshworks.controller;
 
 import java.time.Instant;
+import java.util.Random;
 
 import com.freshworks.entities.ContactCustomField;
 import com.freshworks.entities.ContactEmail;
@@ -29,55 +30,61 @@ public class ContactsController {
 
     @GetMapping(path="/all")
     public @ResponseBody Iterable<SalesContact> getAllContacts() {
-        return salesContactRepository.findAllByAccountId(10101010L);
+        return salesContactRepository.findAllByAccountId(1677068770L);
     }
 
     @GetMapping(path="/{id}/get")
     public @ResponseBody SalesContact getContact(@PathVariable Long id) {
-        return salesContactRepository.findByIdAndAccountId(id, 10101010L).get();
+        return salesContactRepository.findByIdAndAccountId(id, 1677068770L).get();
     }
 
-    @PutMapping(path="/{id}/update")
-    public @ResponseBody SalesContact updateContact(@PathVariable Long id) {
-        //Contact
-        //Contact Custom Field
-        //Contact Custom Field2
-        //Contact Email
-        //Contact Phone number
-        SalesContact contact = salesContactRepository.findByIdAndAccountId(id, 10101010L).get();
-        ContactEmail contactEmail = ContactEmail.builder().email("1@xyz.com")
-            .createdAt(Instant.now()).updatedAt(Instant.now()).build();
-//        ContactEmail saved = contactEmailRepository.save(contactEmail);
-        contact.addContactEmail(contactEmail);
+    @GetMapping(path="/{id}/delete")
+    public @ResponseBody void deleteContact(@PathVariable Long id) {
+        salesContactRepository.deleteById(id);
+    }
+
+    @GetMapping(path="/create")
+    public @ResponseBody SalesContact create() {
+        Random rand = new Random();
+        int i = rand.nextInt();
+        SalesContact contact = SalesContact.builder().firstName("First"+i)
+            .accountId(1677068770L).build();
+        ContactCustomField customField = ContactCustomField.builder().cfStr01("str"+i).build();
+        customField.setContact(contact);
+        contact.setContactCustomField(customField);
+        ContactEmail contactEmail = ContactEmail.builder().email(i+"@xyz.com")
+            .createdAt(Instant.now()).updatedAt(Instant.now()).contact(contact).build();
+        contact.addEmail(contactEmail);
         return salesContactRepository.save(contact);
     }
-    @PostMapping(path="/postEntity")
-    public void postEntity() {
-       insertContactAndEmail();
-//        insertContactAndCustomField();
+
+    @GetMapping(path="/{id}/add-email")
+    public @ResponseBody void addEmail(@PathVariable Long id) {
+        SalesContact contact = salesContactRepository.findByIdAndAccountId(id, 1677068770L).get();
+        ContactEmail contactEmail = ContactEmail.builder().email("1@xyz.com")
+            .createdAt(Instant.now()).updatedAt(Instant.now()).contact(contact).build();
+        contact.addEmail(contactEmail);
+        salesContactRepository.save(contact);
     }
 
-    @DeleteMapping(path = "/delete")
-    public void deleteEntity() {
-        deleteSalesContact();
+    @GetMapping(path="/{id}/remove-email")
+    public @ResponseBody void removeEmail(@PathVariable Long id) {
+        SalesContact contact = salesContactRepository.findByIdAndAccountId(id, 1677068770L).get();
+        ContactEmail contactEmail = ContactEmail.builder().email("1@xyz.com")
+            .createdAt(Instant.now()).contact(contact).updatedAt(Instant.now()).build();
+        contact.removeEmail(contactEmail);
+        salesContactRepository.save(contact);
     }
 
-    public SalesContact insertContactAndEmail() {
-        ContactEmail contactEmail1 = ContactEmail.builder().email("xpqr@gmail.com").build();
-        SalesContact salesContact = SalesContact.builder().accountId(101010L).build();
-        salesContact.addContactEmail(contactEmail1);
-        return salesContactRepository.save(salesContact);
-    }
-
-//    public SalesContact insertContactAndCustomField() {
-//        ContactCustomField contactCustomField = ContactCustomField.builder().contactFormId(72348734L).build();
-//        SalesContact salesContact = SalesContact.builder().accountId(10101010L).build();
-//        salesContact.setContactCustomField(contactCustomField);
-//        return salesContactRepository.save(salesContact);
-//    }
-
-    public void deleteSalesContact() {
-        SalesContact salesContact = salesContactRepository.findById(266975L).get();
-        salesContactRepository.delete(salesContact);
+    @GetMapping(path="/{id}/sync-email")
+    public @ResponseBody void syncEmail(@PathVariable Long id) {
+        SalesContact contact = salesContactRepository.findByIdAndAccountId(id, 1677068770L).get();
+        ContactEmail contactEmail = ContactEmail.builder().email("1@xyz.com")
+            .createdAt(Instant.now()).contact(contact).updatedAt(Instant.now()).build();
+        ContactEmail removed = ContactEmail.builder().email("-1094370930@xyz.com")
+            .createdAt(Instant.now()).contact(contact).updatedAt(Instant.now()).build();
+        contact.removeEmail(removed);
+        contact.addEmail(contactEmail);
+        salesContactRepository.save(contact);
     }
 }

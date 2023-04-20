@@ -1,5 +1,8 @@
 package com.freshworks.entities;
 
+import java.io.Serializable;
+import java.time.Instant;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -11,9 +14,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
 import java.io.Serializable;
 import java.time.Instant;
-
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
@@ -21,6 +24,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -42,12 +46,6 @@ public class ContactCustomField
 
     @Column(name = "contact_form_id")
     private Long contactFormId;
-//
-//    @Column(name = "contact_id")
-//    private Long contactId;
-//
-//    @Column(name = "account_id")
-//    private Long accountId;
 
     @Column(name = "cf_str01")
     private String cfStr01;
@@ -72,14 +70,3 @@ public class ContactCustomField
         customFields = salesContact;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
