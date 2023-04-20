@@ -6,6 +6,7 @@ import com.freshworks.entities.ContactCustomField;
 import com.freshworks.entities.ContactEmail;
 import com.freshworks.entities.SalesContact;
 import com.freshworks.repository.ContactEmailRepository;
+import com.freshworks.repository.FdMultitenantUserRepository;
 import com.freshworks.repository.SalesContactRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,6 +27,8 @@ public class ContactsController {
 
     @Autowired
     private ContactEmailRepository contactEmailRepository;
+    @Autowired
+    private FdMultitenantUserRepository fdMultitenantUserRepository;
 
     @GetMapping(path="/all")
     public @ResponseBody Iterable<SalesContact> getAllContacts() {
@@ -60,6 +63,12 @@ public class ContactsController {
     @DeleteMapping(path = "/delete")
     public void deleteEntity() {
         deleteSalesContact();
+    }
+
+    @GetMapping(path = "/fetch")
+    public void fetchUser() {
+        fdMultitenantUserRepository.findAllActiveUsers(1660829848L)
+                .forEach(fdMultitenantUser -> System.out.println(fdMultitenantUser.toString()));
     }
 
     public SalesContact insertContactAndEmail() {
