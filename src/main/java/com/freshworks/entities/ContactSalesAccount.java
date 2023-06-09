@@ -14,56 +14,41 @@ import java.io.Serializable;
 import java.time.Instant;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.databind.PropertyNamingStrategy;
-import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-@Table(name = "contact_emails")
+@Table(name = "contact_sales_accounts")
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Getter
 @Builder(toBuilder = true)
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
-@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
-public class ContactEmail
+public class ContactSalesAccount
         implements Serializable {
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
-    @Column(name = "created_at")
+    
+    @Column(name = "sales_account_id", nullable = false)
+    private Long salesAccountId;
+
+    
+    @Column(name = "created_at", nullable = false)
     @CreatedDate
     private Instant createdAt;
 
-    @Column(name = "updated_at")
+    
+    @Column(name = "updated_at", nullable = false)
     @LastModifiedDate
     private Instant updatedAt;
-
-    
-    @Column(name = "email")
-    private String email;
-
-    @Column(name = "is_primary")
-    private Boolean isPrimary = Boolean.FALSE;
-
-    @Column(name = "unsubscribe")
-    private Boolean unsubscribe = Boolean.FALSE;
-
-    @Column(name = "email_status")
-    private Integer emailStatus;
-
-    @Column(name = "label_id")
-    private Long labelId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id", referencedColumnName = "account_id", nullable = false)
@@ -71,7 +56,7 @@ public class ContactEmail
     @JsonBackReference
     private SalesContact contact;
 
-    public void setContact(SalesContact salesContact) {
-        this.contact = salesContact;
+    public void setContact(SalesContact contact) {
+        this.contact = contact;
     }
 }

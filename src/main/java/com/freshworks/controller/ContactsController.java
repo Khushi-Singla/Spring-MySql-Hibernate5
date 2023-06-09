@@ -1,9 +1,11 @@
 package com.freshworks.controller;
 
 import java.time.Instant;
+import java.util.List;
+import java.util.Optional;
 
-import com.freshworks.entities.ContactCustomField;
 import com.freshworks.entities.ContactEmail;
+import com.freshworks.entities.ContactListAssociation;
 import com.freshworks.entities.SalesContact;
 import com.freshworks.repository.ContactEmailRepository;
 import com.freshworks.repository.SalesContactRepository;
@@ -11,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -47,13 +48,13 @@ public class ContactsController {
         SalesContact contact = salesContactRepository.findByIdAndAccountId(id, 10101010L).get();
         ContactEmail contactEmail = ContactEmail.builder().email("1@xyz.com")
             .createdAt(Instant.now()).updatedAt(Instant.now()).build();
-//        ContactEmail saved = contactEmailRepository.save(contactEmail);
+        ContactEmail saved = contactEmailRepository.save(contactEmail);
         contact.addContactEmail(contactEmail);
         return salesContactRepository.save(contact);
     }
     @PostMapping(path="/postEntity")
-    public void postEntity() {
-       insertContactAndEmail();
+    public @ResponseBody SalesContact postEntity() {
+       return insertContactAndEmail();
 //        insertContactAndCustomField();
     }
 
@@ -62,10 +63,19 @@ public class ContactsController {
         deleteSalesContact();
     }
 
+    @GetMapping(path = "/get")
+    public void getRecords() {
+        Optional<SalesContact> salesContacts = salesContactRepository.findByIdAndAccountId(1563682L, 1685983243L);
+        System.out.println("--------------------------------------------");
+        System.out.println(salesContacts.get().getContactCustomFields());
+    }
+
     public SalesContact insertContactAndEmail() {
-        ContactEmail contactEmail1 = ContactEmail.builder().email("xpqr@gmail.com").build();
-        SalesContact salesContact = SalesContact.builder().accountId(101010L).build();
+        ContactEmail contactEmail1 = ContactEmail.builder().email("xpqr@gmail.com").createdAt(Instant.now()).updatedAt(Instant.now()).build();
+        ContactListAssociation contactListAssociation = ContactListAssociation.builder().createdAt(Instant.now()).updatedAt(Instant.now()).listId(1L).build();
+        SalesContact salesContact = SalesContact.builder().accountId(101010L).createdAt(Instant.now()).updatedAt(Instant.now()).status(1).build();
         salesContact.addContactEmail(contactEmail1);
+        salesContact.addContactListAssociation(contactListAssociation);
         return salesContactRepository.save(salesContact);
     }
 

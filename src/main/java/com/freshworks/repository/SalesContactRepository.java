@@ -13,4 +13,5 @@ public interface SalesContactRepository
     Optional<SalesContact> findByIdAndAccountId(Long id, Long account);
 
     List<SalesContact> findAllByAccountId(Long account);
+    List<SalesContact> findAllByAccountIdAndMcrIdIn(Long accountId, List<Long> mcrIds);
 }

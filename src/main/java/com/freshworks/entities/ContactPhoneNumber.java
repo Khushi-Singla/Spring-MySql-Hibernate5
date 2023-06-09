@@ -25,7 +25,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-@Table(name = "contact_emails")
+@Table(name = "contact_phone_numbers")
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Getter
@@ -34,33 +34,26 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @NoArgsConstructor
 @EqualsAndHashCode
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
-public class ContactEmail
+public class ContactPhoneNumber
         implements Serializable {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "created_at")
+    
+    @Column(name = "phone_number")
+    private String phoneNumber;
+
+    
+    @Column(name = "created_at", nullable = false)
     @CreatedDate
     private Instant createdAt;
 
-    @Column(name = "updated_at")
+    
+    @Column(name = "updated_at", nullable = false)
     @LastModifiedDate
     private Instant updatedAt;
-
-    
-    @Column(name = "email")
-    private String email;
-
-    @Column(name = "is_primary")
-    private Boolean isPrimary = Boolean.FALSE;
-
-    @Column(name = "unsubscribe")
-    private Boolean unsubscribe = Boolean.FALSE;
-
-    @Column(name = "email_status")
-    private Integer emailStatus;
 
     @Column(name = "label_id")
     private Long labelId;
