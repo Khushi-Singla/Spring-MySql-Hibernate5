@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.Valid;
+import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.time.Instant;
 
@@ -21,6 +23,10 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.LazyToOne;
+import org.hibernate.annotations.LazyToOneOption;
+import org.hibernate.validator.cdi.HibernateValidator;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -29,6 +35,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Getter
+@Setter
 @Builder(toBuilder = true)
 @AllArgsConstructor
 @NoArgsConstructor
@@ -49,8 +56,14 @@ public class ContactEmail
     @LastModifiedDate
     private Instant updatedAt;
 
-    
+    @Column(name = "account_id", nullable = false)
+    @Setter
+    private Long accountId;
+
+    @Valid
     @Column(name = "email")
+    @Pattern(regexp = "^$|(\\b[-a-zA-Z0-9.'’&_%+]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,20}\\b)",
+            message = "Work email format is not valid.")
     private String email;
 
     @Column(name = "is_primary")
@@ -65,13 +78,14 @@ public class ContactEmail
     @Column(name = "label_id")
     private Long labelId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "account_id", referencedColumnName = "account_id", nullable = false)
-    @JoinColumn(name = "contact_id", referencedColumnName = "id", nullable = false)
-    @JsonBackReference
-    private SalesContact contact;
-
-    public void setContact(SalesContact salesContact) {
-        this.contact = salesContact;
-    }
+//    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+//    @JoinColumn(name = "account_id", referencedColumnName = "account_id", nullable = false)
+//    @JoinColumn(name = "contact_id", referencedColumnName = "id", nullable = false)
+//    @LazyToOne(LazyToOneOption.PROXY)
+//    @JsonBackReference
+//    private SalesContact contact;
+//
+//    public void setContact(SalesContact salesContact) {
+//        this.contact = salesContact;
+//    }
 }

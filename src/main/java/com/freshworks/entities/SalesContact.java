@@ -14,6 +14,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -38,6 +39,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Getter
+@Setter
 @Builder(toBuilder = true)
 @AllArgsConstructor
 @NoArgsConstructor
@@ -266,8 +268,10 @@ public class SalesContact
     @Column(name = "mcr_version")
     private Long mcrVersion;
 
-    
+
     @Column(name = "work_email")
+    @Pattern(regexp = "^$|(\\b[-a-zA-Z0-9.'’&_%+]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,20}\\b)",
+            message = "Work email format is not valid.")
     private String workEmail;
 
     @Column(name = "customer_fit")
@@ -348,7 +352,8 @@ public class SalesContact
     @Column(name = "other_unsubscription_reason")
     private String otherUnsubscriptionReason;
 
-    @OneToMany(mappedBy = "contact", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "contact_id", referencedColumnName = "id", nullable = false)
     @JsonManagedReference
     private Set<ContactEmail> emails;
 
@@ -412,8 +417,9 @@ public class SalesContact
     public void addContactEmail(ContactEmail email) {
         if (email != null) {
             emails = emails != null ? emails : new HashSet<>();
+            email.setAccountId(this.accountId);
             emails.add(email);
-            email.setContact(this);
+            //email.setContact(this);
         }
     }
 

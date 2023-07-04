@@ -28,7 +28,7 @@ public class ContactCustomField2
         super(id, contactFormId, accountId);
     }
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "contact_id", referencedColumnName = "id", nullable = false)
     @JsonBackReference
     private SalesContact contact;

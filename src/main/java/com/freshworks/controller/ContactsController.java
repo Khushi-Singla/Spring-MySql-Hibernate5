@@ -11,6 +11,7 @@ import com.freshworks.repository.ContactEmailRepository;
 import com.freshworks.repository.SalesContactRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -49,7 +50,7 @@ public class ContactsController {
         ContactEmail contactEmail = ContactEmail.builder().email("1@xyz.com")
             .createdAt(Instant.now()).updatedAt(Instant.now()).build();
         ContactEmail saved = contactEmailRepository.save(contactEmail);
-        contact.addContactEmail(contactEmail);
+//        contact.addContactEmail(contactEmail);
         return salesContactRepository.save(contact);
     }
     @PostMapping(path="/postEntity")
@@ -68,12 +69,25 @@ public class ContactsController {
         Optional<SalesContact> salesContacts = salesContactRepository.findByIdAndAccountId(1563682L, 1685983243L);
         System.out.println("--------------------------------------------");
         System.out.println(salesContacts.get().getContactCustomFields());
+        System.out.println(salesContacts.get().getContactCustomField2());
+        System.out.println(salesContacts.get().getContactSubscription());
+        System.out.println(salesContacts.get().getEmails());
+        System.out.println("--------------------------------------------");
+        System.out.println(salesContacts.get().getTags());
+    }
+
+    @PostMapping(path = "/test")
+    public void PatternTest() {
+        SalesContact salesContact = new SalesContact();
+        salesContact.setWorkEmail("sdjhdsjhdfjgdfgg@wer.com");
+        System.out.println("742874743");
     }
 
     public SalesContact insertContactAndEmail() {
-        ContactEmail contactEmail1 = ContactEmail.builder().email("xpqr@gmail.com").createdAt(Instant.now()).updatedAt(Instant.now()).build();
+        ContactEmail contactEmail1 = new ContactEmail();
+        contactEmail1.setEmail("geffdbhbfdbn");
         ContactListAssociation contactListAssociation = ContactListAssociation.builder().createdAt(Instant.now()).updatedAt(Instant.now()).listId(1L).build();
-        SalesContact salesContact = SalesContact.builder().accountId(101010L).createdAt(Instant.now()).updatedAt(Instant.now()).status(1).build();
+        SalesContact salesContact = SalesContact.builder().accountId(100L).createdAt(Instant.now()).updatedAt(Instant.now()).status(1).workEmail("dsbddbndvvdbvb").build();
         salesContact.addContactEmail(contactEmail1);
         salesContact.addContactListAssociation(contactListAssociation);
         return salesContactRepository.save(salesContact);

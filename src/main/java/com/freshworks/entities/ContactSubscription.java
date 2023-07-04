@@ -3,6 +3,7 @@ package com.freshworks.entities;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import java.io.Serializable;
@@ -41,7 +42,7 @@ public class ContactSubscription
         this.contact = contact;
     }
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "entity_id", referencedColumnName = "id")
     @JsonBackReference
     private SalesContact contact;
